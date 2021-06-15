@@ -1,4 +1,4 @@
-package co.com.sofka.ddd.cliente;
+package co.com.sofka.ddd.cliente.events;
 
 import co.com.sofka.ddd.tiposervicio.values.TipoServicioID;
 import co.com.sofka.domain.generic.DomainEvent;

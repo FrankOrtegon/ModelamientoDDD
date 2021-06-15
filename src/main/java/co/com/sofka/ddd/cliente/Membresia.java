@@ -12,8 +12,8 @@ public class Membresia extends Entity<MembresiaID> {
     private Tipo tipo;
     private Precio precio;
 
-    public Membresia(MembresiaID entityId, Tipo tipo, Precio precio) {
-        super(entityId);
+    public Membresia(MembresiaID membresiaID, Tipo tipo, Precio precio) {
+        super(membresiaID);
         this.tipo = tipo;
         this.precio = precio;
     }

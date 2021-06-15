@@ -18,15 +18,20 @@ public class Cliente extends AggregateEvent<ClienteID> {
     public Cliente(ClienteID entityId, Nombre nombre, Turno turno, Telefono telefono)
     {
         super(entityId);
-        appendChange(new ClienteCreado(nombre)).apply();
+        appendChange(new ClienteCreado(nombre, telefono)).apply();
     }
 
-    public void asociarMembresia(MembresiaID entityId, Tipo tipo, Precio precio) {
-        Objects.requireNonNull(entityId);
+    private Cliente(ClienteID entityId) {
+            super(entityId);
+            subscribe(new ClienteChange(this));
+    }
+
+    public void asociarMembresia(MembresiaID membresiaID, Tipo tipo, Precio precio) {
+        Objects.requireNonNull(membresiaID);
         Objects.requireNonNull(precio);
         Objects.requireNonNull(tipo);
 
-        appendChange(new MembresiaAsociada(entityId,tipo,precio)).apply();
+        appendChange(new MembresiaAsociada(membresiaID,tipo,precio)).apply();
     }
 
     public void seleccionarTipoServicio(TipoServicioID tipoServicioID) {
@@ -45,10 +50,10 @@ public class Cliente extends AggregateEvent<ClienteID> {
         appendChange(new TelefonoActualizado(telefono)).apply();
     }
 
-    public Optional<Membresia> getMembresiaPorId(MembresiaID entityId) {
+    public Optional<Membresia> getMembresiaPorId(MembresiaID membresiaID) {
         return membresias()
                 .stream()
-                .filter(membresia -> membresia.identity().equals(entityId))
+                .filter(membresia -> membresia.identity().equals(membresiaID))
                 .findFirst();
     }
 

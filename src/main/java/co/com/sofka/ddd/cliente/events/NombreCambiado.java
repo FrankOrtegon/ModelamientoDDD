@@ -1,4 +1,4 @@
-package co.com.sofka.ddd.cliente;
+package co.com.sofka.ddd.cliente.events;
 
 import co.com.sofka.ddd.cliente.values.Nombre;
 import co.com.sofka.domain.generic.DomainEvent;
