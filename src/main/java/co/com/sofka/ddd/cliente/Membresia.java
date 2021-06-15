@@ -17,6 +17,11 @@ public class Membresia extends Entity<MembresiaID> {
         this.tipo = tipo;
         this.precio = precio;
     }
+
+    public void agregarPrecio(Precio precio) {
+        this.precio = Objects.requireNonNull(precio);
+    }
+
     public void seleccionarTipo(Tipo tipo) {
         this.tipo = Objects.requireNonNull(tipo);
     }
