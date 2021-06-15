@@ -18,4 +18,16 @@ public class Tipo implements ValueObject<String> {
     public String value() {
         return value;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Turno turno = (Turno) o;
+        return Objects.equals(value, turno.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
 }
