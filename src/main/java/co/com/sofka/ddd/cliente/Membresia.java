@@ -33,4 +33,8 @@ public class Membresia extends Entity<MembresiaID> {
     public Precio precio() {
         return precio;
     }
+
+
+    public void MembresiaAsociada(MembresiaID membresiaID) {
+    }
 }

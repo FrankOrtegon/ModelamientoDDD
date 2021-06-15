@@ -15,10 +15,6 @@ public class ClienteChange extends EventChange {
            cliente.telefono = event.getTelefono();
         });
 
-        apply((MembresiaAsociada event) -> {
-            cliente.membresias = (Set<Membresia>) event.membresiaID();
-        });
-
         apply((NombreCambiado event) -> {
             cliente.nombre = event.getNombre();
         });
@@ -33,6 +29,18 @@ public class ClienteChange extends EventChange {
 
         apply((TurnoAsignado event) -> {
             cliente.turno = event.getTurno();
+        });
+
+        apply((MembresiaAsociada event) -> {
+            var numMembresias = cliente.membresias().size();
+            if(numMembresias == 2) {
+                throw new IllegalArgumentException("No se puede asociar otra membresia al cliente, solo se puede tener una por cliente");
+            }
+            cliente.membresias.add(new Membresia(
+                    event.membresiaID(),
+                    event.tipo(),
+                    event.precio()
+            ));
         });
         }
 

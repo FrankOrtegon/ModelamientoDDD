@@ -4,7 +4,9 @@ import co.com.sofka.ddd.cliente.events.*;
 import co.com.sofka.ddd.cliente.values.*;
 import co.com.sofka.ddd.tiposervicio.values.TipoServicioID;
 import co.com.sofka.domain.generic.AggregateEvent;
+import co.com.sofka.domain.generic.DomainEvent;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -15,6 +17,7 @@ public class Cliente extends AggregateEvent<ClienteID> {
     protected Telefono telefono;
     protected Set<Membresia> membresias;
     protected TipoServicioID tipoServicioID;
+
     public Cliente(ClienteID entityId, Nombre nombre, Turno turno, Telefono telefono)
     {
         super(entityId);
@@ -24,6 +27,12 @@ public class Cliente extends AggregateEvent<ClienteID> {
     private Cliente(ClienteID entityId) {
             super(entityId);
             subscribe(new ClienteChange(this));
+    }
+
+    public static Cliente from(ClienteID clienteID, List<DomainEvent> events) {
+        var cliente = new Cliente(clienteID);
+        events.forEach(cliente::applyEvent);
+        return cliente;
     }
 
     public void asociarMembresia(MembresiaID membresiaID, Tipo tipo, Precio precio) {
@@ -50,7 +59,7 @@ public class Cliente extends AggregateEvent<ClienteID> {
         appendChange(new TelefonoActualizado(telefono)).apply();
     }
 
-    public Optional<Membresia> getMembresiaPorId(MembresiaID membresiaID) {
+    protected Optional<Membresia> getMembresiaPorId(MembresiaID membresiaID) {
         return membresias()
                 .stream()
                 .filter(membresia -> membresia.identity().equals(membresiaID))
